@@ -1,5 +1,7 @@
 import * as Yup from "yup";
+import jwt from "jsonwebtoken";
 import User from "../Models/User";
+import authConfig from "../../Config/auth"
 
 class SessionController {
   async store(request, response) {
@@ -14,7 +16,7 @@ class SessionController {
         .json({ error: "Make sure your password or email are correct" });
     };
 
-    if (!(await schema.isValid(request.body))) {  
+    if (!(await schema.isValid(request.body))) {
       return response.status(400).json(userEmailOrPasswordIncorrect());
     }
 
@@ -37,6 +39,9 @@ class SessionController {
       email,
       name: user.name,
       admin: user.admin,
+      token: jwt.sign({ id: user.id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn
+      } ),
     });
   }
 }
