@@ -5,6 +5,7 @@ import multerConfig from "./config/multer";
 import UserController from "./App/Controllers/UserController";
 import SessionController from "./App/Controllers/SessionController";
 import ProductController from "./App/Controllers/ProductController";
+import CategoryController from "./App/Controllers/CategoryController";
 import authMiddlewares from "./App/middlewares/auth"
 
 const routes = new Router();
@@ -17,5 +18,8 @@ routes.use(authMiddlewares) //todas as rotas abaixo destá iram receber os middl
 
 routes.post("/products", upload.single("file"), ProductController.store);
 routes.get("/products", ProductController.index);
+
+routes.post("/categories", CategoryController.store);
+routes.get("/categories", CategoryController.index);
 
 export default routes;
