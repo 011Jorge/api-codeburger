@@ -6,8 +6,8 @@ import ProductController from "./app/controllers/ProductController";
 import SessionController from "./app/controllers/SessionController";
 import UserController from "./app/controllers/UserController";
 
-const upload = multer(multerConfig);
 const routes = new Router();
+const upload = multer(multerConfig);
 
 routes.post("/users", UserController.store);
 routes.post("/sessions", SessionController.store);
