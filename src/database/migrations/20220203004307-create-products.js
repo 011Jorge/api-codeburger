@@ -22,7 +22,7 @@ module.exports = {
 
       category: {
         type: Sequelize.STRING,
-        unique: true,
+        allowNull: false,
       },
 
       path: {

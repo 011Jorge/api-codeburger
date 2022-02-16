@@ -19,10 +19,10 @@ class CategoryController {
       where: {
         name,
       },
-    })
+    });
 
-    if(categoryExists) {
-      return response.status(400).json({ error: "Category already exists"})
+    if (categoryExists) {
+      return response.status(400).json({ error: "Category already exists" });
     }
 
     const { id } = await Category.create({ name });
