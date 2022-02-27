@@ -1,49 +1,49 @@
-import * as Yup from "yup";
-import jwt from "jsonwebtoken";
-import User from "../models/User";
-import authConfig from "../../config/auth";
+import jwt from 'jsonwebtoken'
+import * as Yup from 'yup'
+import User from '../models/User'
+import authConfig from '../../config/auth'
 
 class SessionController {
-  async store(request, response) {
+  async store (req, res) {
     const schema = Yup.object().shape({
-      email: Yup.string().email().required(),
-      password: Yup.string().required(),
-    });
+      email: Yup.string()
+        .email()
+        .required(),
+      password: Yup.string().required()
+    })
 
-    const userEmailorPasswordIncorrect = () => {
-      return response
-        .status(400)
-        .json({ error: "Make sure you password or email are correct" });
-    };
-
-    if (!(await schema.isValid(request.body))) {
-      userEmailorPasswordIncorrect();
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Make sure your data is correct' })
     }
 
-    const { email, password } = request.body;
+    const { email, password } = req.body
 
     const user = await User.findOne({
-      where: { email },
-    });
+      where: { email }
+    })
 
     if (!user) {
-      userEmailorPasswordIncorrect();
+      return res.status(401).json({ error: 'User does not exist' })
     }
 
     if (!(await user.checkPassword(password))) {
-      userEmailorPasswordIncorrect();
+      return res.status(401).json({ error: 'User or Password incorrect' })
     }
 
-    return response.json({
-      id: user.id,
-      email,
-      name: user.name,
-      admin: user.admin,
-      token: jwt.sign({ id: user.id, name: user.name }, authConfig.secret, {
-        expiresIn: authConfig.expiresIn,
-      }),
-    });
+    const { id, name, admin } = user
+
+    return res.json({
+      user: {
+        id,
+        name,
+        email,
+        admin
+      },
+      token: jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn
+      })
+    })
   }
 }
 
-export default new SessionController();
+export default new SessionController()
