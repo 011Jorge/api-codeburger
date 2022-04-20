@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const OrderSchema = new mongoose.Schema(
   {
     user: {
       id: {
         type: String,
-        rquired: true,
+        required: true,
       },
       name: {
         type: String,
@@ -34,9 +34,12 @@ const OrderSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        quantity: {
+          type: Number,
+          required: true,
+        },
       },
     ],
-
     status: {
       type: String,
       required: true,
@@ -45,6 +48,6 @@ const OrderSchema = new mongoose.Schema(
   {
     timestamps: true,
   }
-);
+)
 
-export default mongoose.model("Order", OrderSchema);
+export default mongoose.model('Order', OrderSchema)

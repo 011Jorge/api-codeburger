@@ -1,8 +1,8 @@
-import * as Yup from "yup";
-import Product from "../models/Product";
-import Category from "../models/Category";
-import Order from "../schemas/Order";
-import User from "../models/User";
+import * as Yup from 'yup'
+import Product from '../models/Product'
+import Category from '../models/Category'
+import Order from '../schemas/Order'
+import User from '../models/User'
 
 class OrderController {
   async store(request, response) {
@@ -15,33 +15,33 @@ class OrderController {
             quantity: Yup.number().required(),
           })
         ),
-    });
+    })
 
     try {
-      await schema.validateSync(request.body, { abortEarly: false });
+      await schema.validateSync(request.body, { abortEarly: false })
     } catch (err) {
-      return response.status(400).json({ error: err.errors });
+      return response.status(400).json({ error: err.errors })
     }
 
-    const productsId = request.body.products.map((product) => product.id);
+    const productsId = request.body.products.map((product) => product.id)
 
-    const updateProducts = await Product.findAll({
+    const updatedProducts = await Product.findAll({
       where: {
         id: productsId,
       },
       include: [
         {
           model: Category,
-          as: "category",
-          attributes: ["name"],
+          as: 'category',
+          attributes: ['name'],
         },
       ],
-    });
+    })
 
-    const editedProducts = updateProducts.map((product) => {
-      const productsIndex = request.body.products.findIndex(
+    const editedProduct = updatedProducts.map((product) => {
+      const productIndex = request.body.products.findIndex(
         (requestProduct) => requestProduct.id === product.id
-      );
+      )
 
       const newProduct = {
         id: product.id,
@@ -49,59 +49,60 @@ class OrderController {
         price: product.price,
         category: product.category.name,
         url: product.url,
-        quantity: request.body.products[productsIndex].quantity,
-      };
-      return newProduct;
-    });
+        quantity: request.body.products[productIndex].quantity,
+      }
+
+      return newProduct
+    })
 
     const order = {
       user: {
         id: request.userId,
         name: request.userName,
       },
-      products: editedProducts,
-      status: "Pedido Realizado",
-    };
+      products: editedProduct,
+      status: 'Pedido realizado',
+    }
 
-    const orderResponse = await Order.create(order);
+    const orderResponse = await Order.create(order)
 
-    return response.status(201).json(orderResponse);
+    return response.status(201).json(orderResponse)
   }
 
   async index(request, response) {
-    const orders = await Order.find();
+    const orders = await Order.find()
 
-    return response.json(orders);
+    return response.json(orders)
   }
 
   async update(request, response) {
     const schema = Yup.object().shape({
       status: Yup.string().required(),
-    });
+    })
 
     try {
-      await schema.validateSync(request.body, { abortEarly: false });
+      await schema.validateSync(request.body, { abortEarly: false })
     } catch (err) {
-      return response.status(400).json({ error: err.errors });
+      return response.status(400).json({ error: err.errors })
     }
 
-    const { admin: isAdmin } = await User.findByPk(request.userId);
+    const { admin: isAdmin } = await User.findByPk(request.userId)
 
     if (!isAdmin) {
-      return response.status(401).json();
+      return response.status(401).json()
     }
 
-    const { id } = request.params;
-    const { status } = request.body;
+    const { id } = request.params
+    const { status } = request.body
 
     try {
-      await Order.updateOne({ _id: id }, { status });
+      await Order.updateOne({ _id: id }, { status })
     } catch (error) {
-      return response.status(400).json({ error: error.message });
+      return response.status(400).json({ error: error.message })
     }
 
-    return response.json({ message: "status update successfully" });
+    return response.json({ message: 'Status updated sucessfully' })
   }
 }
 
-export default new OrderController();
+export default new OrderController()
