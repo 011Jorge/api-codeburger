@@ -16,11 +16,15 @@ export default (request, response, next) => {
         throw new Error();
       }
 
+      console.log(decoded)
+
       request.userId = decoded.id;
       request.userName = decoded.name;
 
       return next();
+
     });
+
   } catch (err) {
     return response.status(401).json({ error: "Token in invalid" });
   }

@@ -17,6 +17,8 @@ class OrderController {
         ),
     })
 
+    console.log("Helo")
+
     try {
       await schema.validateSync(request.body, { abortEarly: false })
     } catch (err) {
@@ -74,7 +76,7 @@ class OrderController {
 
     return response.json(orders)
   }
-
+  
   async update(request, response) {
     const schema = Yup.object().shape({
       status: Yup.string().required(),
