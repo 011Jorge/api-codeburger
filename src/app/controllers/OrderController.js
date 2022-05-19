@@ -91,7 +91,7 @@ class OrderController {
     const { admin: isAdmin } = await User.findByPk(request.userId)
 
     if (!isAdmin) {
-      return response.status(401).json()
+      return response.status(401).json()  
     }
 
     const { id } = request.params
@@ -102,7 +102,7 @@ class OrderController {
     } catch (error) {
       return response.status(400).json({ error: error.message })
     }
-
+ 
     return response.json({ message: 'Status updated sucessfully' })
   }
 }
