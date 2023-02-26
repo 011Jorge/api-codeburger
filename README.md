@@ -18,7 +18,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * Você instalou a versão mais recente de `<node.js / git / npm ou yarn>`
 * Você tem uma máquina `<Windows / Linux / Mac>`.
 
-## 🚀 Instalando a API CodeBurger
+## 🚀 Instalando a API CodeBurger:
 
 Para instalar a API CodeBurger, siga estas etapas:
 
