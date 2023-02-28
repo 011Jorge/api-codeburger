@@ -1,6 +1,6 @@
 # 🎲 API CodeBurger
 
-<img src="exemplo-image.png" alt="exemplo-do-projeto-em-breve">
+<img src="exemplo-image.png" alt="exemplo-do-projeto-em-breve.">
 
 > API do codeburger. Contém cardápio, valores, imagens e etc...
 
