@@ -27,7 +27,7 @@ Windows, Linux e macOS:
 git clone https://github.com/011Jorge/api-codeburger
 ```
 
-## ☕ Usando a API CodeBurger
+## ☕ Usando a API CodeBurger:
 
 Para usar a API CodeBurger, siga estas etapas:
 
